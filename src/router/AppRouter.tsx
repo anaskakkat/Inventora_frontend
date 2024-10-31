@@ -9,6 +9,11 @@ import AuthForm from "../screen/AuthForm";
 import HomeScreen from "../screen/HomeScreen";
 import ProtectedRoute from "../components/protectedRoute/ProtectedRoute";
 import PublicProtectedRoute from "../components/protectedRoute/PublicProtectedRoute";
+import Inventory from "../screen/Inventory";
+import Customer from "../screen/Customer";
+import Sales from "../screen/Sales";
+import Reports from "../screen/Reports";
+import Dashboard from "../screen/Dashboard";
 
 const AppRouter: React.FC = () => {
   return (
@@ -21,7 +26,13 @@ const AppRouter: React.FC = () => {
         </Route>
 
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<HomeScreen />} />
+          <Route element={<HomeScreen />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/customers" element={<Customer />} />
+            <Route path="/sales" element={<Sales />} />
+            <Route path="/report" element={<Reports />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

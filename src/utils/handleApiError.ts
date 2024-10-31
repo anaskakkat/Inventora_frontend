@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 export const handleApiError = (error: unknown) => {
   if (error instanceof AxiosError) {
     if (error.response) {
-      console.log("Error handler response:", error.response.data);
+      console.log("----Error handler response:----", error.response.data);
       
       let errorMessage = "An error occurred";
 
