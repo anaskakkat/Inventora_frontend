@@ -101,7 +101,7 @@ const Sidebar = () => {
           text="Logout"
           to="#"
           onClick={handleLogout}
-          customClass="text-red-600"
+          customClass="text-red-600 hover:bg-red-50"
         />
       </div>
     </div>

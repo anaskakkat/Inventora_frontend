@@ -7,7 +7,7 @@ import Api from "../config/axiosConfig";
 import { handleApiError } from "../utils/handleApiError";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import ConfirmationPopover from "@/components/ConfirmationPopover";
-
+import { FaPlus } from "react-icons/fa";
 const Inventory: React.FC = () => {
   const headers: string[] = [
     "SR No",
@@ -37,25 +37,25 @@ const Inventory: React.FC = () => {
       if (itemData._id) {
         console.log("editing data", itemData);
         const editedResponse = await Api.patch(
-          `/items/items/${itemData._id}`,
+          `/items/${itemData._id}`,
           itemData
         );
         // console.log("----editedResponse---", editedResponse);
-        toast.success(editedResponse.data.message)
+        toast.success(editedResponse.data.message);
       } else {
-        const response = await Api.post("/items/items", itemData);
+        const response = await Api.post("/items", itemData);
         toast.success(response.data.message);
       }
       fetchItems();
     } catch (error) {
       console.error("Error:", error);
-      handleApiError(error)
+      handleApiError(error);
     }
   };
 
   const handleDeleteItem = async (_id: string) => {
     try {
-      const deleteItemResponse = await Api.delete(`/items/items/${_id}`);
+      const deleteItemResponse = await Api.delete(`/items/${_id}`);
       toast.success(deleteItemResponse.data.message);
       fetchItems();
     } catch (error) {
@@ -83,7 +83,7 @@ const Inventory: React.FC = () => {
 
   const fetchItems = async () => {
     try {
-      const { data } = await Api.get("/items/items");
+      const { data } = await Api.get("/items");
 
       const formattedRows = data.map((item: any, index: number) => [
         index + 1,
@@ -136,9 +136,10 @@ const Inventory: React.FC = () => {
         />
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-blue-500 text-white rounded-md px-2 py-1.5 hover:bg-blue-600"
+          className="flex items-center gap-2 bg-blue-500 text-white rounded-md px-2 py-1.5 hover:bg-blue-600"
         >
-          Add Item
+          <FaPlus className="" />
+          Add Items
         </button>
         <AddItemModal
           isOpen={isModalOpen}
@@ -157,11 +158,11 @@ const Inventory: React.FC = () => {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="px-1 py-1 rounded-md"
+              className="px-1 py-1 rounded-md cursor-pointer"
             >
               <FcPrevious />
             </button>
-            <span className="flex items-center text-xs">
+            <span className="flex items-center text-xs ">
               Page {currentPage} of {totalPages}
             </span>
             <button
@@ -169,7 +170,7 @@ const Inventory: React.FC = () => {
                 setCurrentPage((prev) => Math.min(prev + 1, totalPages))
               }
               disabled={currentPage === totalPages}
-              className="px-1 py-1 rounded-md"
+              className="px-1 py-1 rounded-md cursor-pointer"
             >
               <FcNext />
             </button>
