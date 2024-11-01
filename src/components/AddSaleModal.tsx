@@ -91,7 +91,12 @@ const AddSaleModal: React.FC<AddSaleModalProps> = ({
   };
 
   const handleAddItem = () => {
+   
     if (selectedItem) {
+        if (quantity > selectedItem.quantity) {
+            toast.error("Insufficient stock available.");
+            return; // Exit the function if stock is insufficient
+          }
       const existingItemIndex = selectedItems.findIndex(
         (item) => item._id === selectedItem._id
       );
@@ -140,7 +145,7 @@ const AddSaleModal: React.FC<AddSaleModalProps> = ({
       date: new Date().toISOString().split("T")[0],
       customerId,
 
-      total: totalAmount,
+      totalAmount: totalAmount,
       items: selectedItems.map(({ _id, name, quantity, total }) => ({
         _id,
         name,
@@ -312,11 +317,11 @@ const AddSaleModal: React.FC<AddSaleModalProps> = ({
                           </td>
                         </tr>
                       ))}
-                      <tr className="border-t border-gray-300 bg-gray-50 font-bold text-[14px]">
+                      <tr className="border-t border-gray-300 bg-gray-50 font-semibold text-[14px]">
                         <td colSpan={3} className="px-4 py-1 text-right">
                           Total Amount:
                         </td>
-                        <td className="px-4 py-1 text-right">${totalAmount}</td>
+                        <td className=" text-right px-3">₹{totalAmount}</td>
                         <td></td>
                       </tr>
                     </tbody>
@@ -325,17 +330,6 @@ const AddSaleModal: React.FC<AddSaleModalProps> = ({
               </div>
             )}
 
-            {/* Payment Method */}
-            {/* <div>
-              <label className="block text-sm font-medium mb-1">Payment Method</label>
-              <input
-                type="text"
-                placeholder="Enter payment method"
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                className="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-blue-500"
-              />
-            </div> */}
 
             {/* Action Buttons */}
             <div className="flex justify-end gap-2 mt-6">

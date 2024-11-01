@@ -50,7 +50,7 @@ const Sales: React.FC = () => {
   };
 
   const headers: string[] = [
-    "Sr. No",
+    "#",
     "Date",
     "Customer Name",
     "Total Quantity",
@@ -63,7 +63,7 @@ const Sales: React.FC = () => {
     return customer?.name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  const rows = filteredSales.map((sale, index) => {
+  const rows = filteredSales.map((sale) => {
     const customer = customers.find((c) => c._id === sale.customerId);
     const totalQuantity = sale.items.reduce(
       (sum, item) => sum + item.quantity,
@@ -74,12 +74,12 @@ const Sales: React.FC = () => {
       .join(", ");
 
     return [
-      index + 1,
+      `#${sale.receiptNumber} `,
       new Date(sale.date).toLocaleDateString(),
       customer?.name || "Unknown",
       totalQuantity,
       itemsList,
-      sale.total ? `₹${sale.total.toFixed(2)}` : "₹0.00",
+      `₹${sale.totalAmount}`,
     ];
   });
 

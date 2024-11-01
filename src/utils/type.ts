@@ -1,4 +1,5 @@
 export interface Sale {
+  receiptNumber?: string;
   customerId: string;
   date: string;
   items: {
@@ -6,13 +7,14 @@ export interface Sale {
     quantity: number;
     total: number;
   }[];
-  total: number;
+  totalAmount: number;
 }
 
 export interface InventoryItem {
   _id: number;
   name: string;
   price: number;
+  quantity: number;
 }
 
 export interface Customer {

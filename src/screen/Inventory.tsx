@@ -89,7 +89,7 @@ const Inventory: React.FC = () => {
         index + 1,
         item.name,
         item.description,
-        `${item.quantity} ${item.unit}`,
+        item.quantity > 0 ? `${item.quantity} ${item.unit}` : "No Stock",
         `₹${item.price.toFixed(2)} / ${item.unit}`,
         <div className="flex space-x-2">
           <button className="text-blue-600 rounded-md hover:text-blue-900">

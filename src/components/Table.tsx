@@ -11,7 +11,7 @@ const Table: React.FC<TableProps> = ({ headers, rows }) => {
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200 rounded-md shadow">
         <thead>
-          <tr className="bg-blue-50 text-gray-600 uppercase text-xs leading-normal rounded-t-3xl">
+          <tr className="bg-blue-50 font-medium text-gray-600 uppercase text-[10px] leading-normal rounded-t-3xl">
             {headers.map((header, index) => (
               <th key={index} className="py-2 px-6 text-left">
                 {header}
@@ -21,9 +21,19 @@ const Table: React.FC<TableProps> = ({ headers, rows }) => {
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
           {rows.map((row, rowIndex) => (
-            <tr key={rowIndex} className="border-b border-gray-300 hover:bg-gray-100 text-sm font-normal">
+            <tr
+              key={rowIndex}
+              className="border-b border-gray-300 hover:bg-gray-100 text-sm font-normal"
+            >
               {row.map((cell, cellIndex) => (
-                <td key={cellIndex} className="py-2 px-6">{cell}</td>
+                <td
+                  key={cellIndex}
+                  className={`py-2 px-6 ${
+                    cell === "No Stock" ? "text-red-500 font-semibold" : ""
+                  }`}
+                >
+                  {cell}
+                </td>
               ))}
             </tr>
           ))}
