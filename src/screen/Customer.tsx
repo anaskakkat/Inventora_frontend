@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import Table from "../components/Table";
 import AddCustomerModal from "../components/AddCustomerModal";
-import { FcNext, FcPrevious } from "react-icons/fc";
 import ConfirmationPopover from "@/components/ConfirmationPopover";
 import toast from "react-hot-toast";
 import { handleApiError } from "@/utils/handleApiError";
 import Api from "@/config/axiosConfig";
+import Pagination from "@/components/Pagination";
 
 const Customer: React.FC = () => {
   const headers = ["SR No", "Name", "Address", "Mobile", "Actions"];
@@ -147,27 +147,11 @@ const Customer: React.FC = () => {
       {paginatedRows.length > 0 ? (
         <>
           <Table headers={headers} rows={paginatedRows} />
-          <div className="flex justify-end space-x-2 mt-4">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-1 py-1 rounded-md cursor-pointer"
-            >
-              <FcPrevious />
-            </button>
-            <span className="flex items-center text-xs ">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className="px-1 py-1 rounded-md cursor-pointer"
-            >
-              <FcNext />
-            </button>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </>
       ) : (
         <p className="text-center mt-4 p-10 text-red-800">No data available</p>

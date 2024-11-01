@@ -5,9 +5,9 @@ import AddItemModal from "../components/AddItemModal";
 import toast from "react-hot-toast";
 import Api from "../config/axiosConfig";
 import { handleApiError } from "../utils/handleApiError";
-import { FcNext, FcPrevious } from "react-icons/fc";
 import ConfirmationPopover from "@/components/ConfirmationPopover";
 import { FaPlus } from "react-icons/fa";
+import Pagination from "@/components/Pagination";
 const Inventory: React.FC = () => {
   const headers: string[] = [
     "SR No",
@@ -154,27 +154,11 @@ const Inventory: React.FC = () => {
       {paginatedRows.length > 0 ? (
         <>
           <Table headers={headers} rows={paginatedRows} />
-          <div className="flex justify-end space-x-2 mt-4">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-1 py-1 rounded-md cursor-pointer"
-            >
-              <FcPrevious />
-            </button>
-            <span className="flex items-center text-xs ">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className="px-1 py-1 rounded-md cursor-pointer"
-            >
-              <FcNext />
-            </button>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </>
       ) : (
         <p className="text-center mt-4 p-10  text-red-800">No data available</p>
