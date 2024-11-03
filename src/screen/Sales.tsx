@@ -7,6 +7,7 @@ import Api from "@/config/axiosConfig";
 import { handleApiError } from "@/utils/handleApiError";
 import toast from "react-hot-toast";
 import Pagination from "@/components/Pagination";
+import Loader from "@/components/Loader";
 
 const Sales: React.FC = () => {
   const [sales, setSales] = useState<Sale[]>([]);
@@ -23,6 +24,7 @@ const Sales: React.FC = () => {
   }, []);
 
   const fetchData = async () => {
+    setIsLoading(true)
     try {
       const [salesResponse, customersResponse] = await Promise.all([
         Api.get("/sale"),
@@ -53,25 +55,26 @@ const Sales: React.FC = () => {
     "#",
     "Date",
     "Customer Name",
+
     "Total Quantity",
     "Items",
     "Total",
   ];
 
   const filteredSales = sales.filter((sale) => {
-    const customer = customers.find((c) => c._id === sale.customerId);
+    const customer = customers.find((c) => c._id === sale.customerId._id);
     return customer?.name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   const rows = filteredSales.map((sale) => {
-    const customer = customers.find((c) => c._id === sale.customerId);
+    const customer = customers.find((c) => c._id === sale.customerId._id);
     const totalQuantity = sale.items.reduce(
       (sum, item) => sum + item.quantity,
       0
     );
     const itemsList = sale.items
       .map((item) => `${item.name} (${item.quantity})`)
-      .join(", ");
+      .join("\n ");
 
     return [
       `#${sale.receiptNumber} `,
@@ -89,15 +92,9 @@ const Sales: React.FC = () => {
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
-
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-      </div>
-    );
+    return <Loader />;
   }
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Sales Records</h1>

@@ -44,7 +44,6 @@ const Sidebar = () => {
     try {
       const response = await Api.post("/auth/signout");
 
-      console.log("response----", response);
       if (response.status === 200) {
         dispatch(removeUserInfo());
         toast.success(response.data.message);
@@ -55,9 +54,9 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col w-64 bg-white border-r border-gray-200 h-screen">
+    <div className="flex flex-col w-64 h-screen bg-white border-r border-gray-200 overflow-hidden">
       {/* Logo */}
-      <div className="h- flex items-center py-4 px-6 border-b border-gray-200">
+      <div className="h-16 flex items-center py-4 px-6 border-b border-gray-200">
         <span className="text-2xl font-bold text-blue-600">Inventora</span>
       </div>
 
@@ -95,6 +94,7 @@ const Sidebar = () => {
         />
       </div>
 
+      {/* Logout */}
       <div className="py-4">
         <SidebarItem
           icon={<ClipboardList size={20} />}

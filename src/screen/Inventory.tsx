@@ -8,6 +8,8 @@ import { handleApiError } from "../utils/handleApiError";
 import ConfirmationPopover from "@/components/ConfirmationPopover";
 import { FaPlus } from "react-icons/fa";
 import Pagination from "@/components/Pagination";
+import Loader from "@/components/Loader";
+
 const Inventory: React.FC = () => {
   const headers: string[] = [
     "SR No",
@@ -24,23 +26,23 @@ const Inventory: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
   const [itemData, setItemData] = useState<any | null>(null);
+  const [loading, setLoading] = useState(false); // Loading state
 
   const handleAddItem = async (itemData: {
     _id?: string;
     name: string;
     description: string;
     quantity: number;
-    unit: string;
     price: number;
   }) => {
     try {
+      setLoading(true); // Start loading
       if (itemData._id) {
         console.log("editing data", itemData);
         const editedResponse = await Api.patch(
           `/items/${itemData._id}`,
           itemData
         );
-        // console.log("----editedResponse---", editedResponse);
         toast.success(editedResponse.data.message);
       } else {
         const response = await Api.post("/items", itemData);
@@ -50,16 +52,21 @@ const Inventory: React.FC = () => {
     } catch (error) {
       console.error("Error:", error);
       handleApiError(error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
   const handleDeleteItem = async (_id: string) => {
     try {
+      setLoading(true); // Start loading
       const deleteItemResponse = await Api.delete(`/items/${_id}`);
       toast.success(deleteItemResponse.data.message);
       fetchItems();
     } catch (error) {
       handleApiError(error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -83,6 +90,7 @@ const Inventory: React.FC = () => {
 
   const fetchItems = async () => {
     try {
+      setLoading(true); // Start loading
       const { data } = await Api.get("/items");
 
       const formattedRows = data.map((item: any, index: number) => [
@@ -102,6 +110,8 @@ const Inventory: React.FC = () => {
       setRows(formattedRows);
     } catch (error) {
       handleApiError(error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -151,7 +161,9 @@ const Inventory: React.FC = () => {
         />
       </div>
 
-      {paginatedRows.length > 0 ? (
+      {loading ? ( // Show loading indicator
+        <Loader />
+      ) : paginatedRows.length > 0 ? (
         <>
           <Table headers={headers} rows={paginatedRows} />
           <Pagination
@@ -161,7 +173,7 @@ const Inventory: React.FC = () => {
           />
         </>
       ) : (
-        <p className="text-center mt-4 p-10  text-red-800">No data available</p>
+        <p className="text-center mt-4 p-10 text-red-800">No data available</p>
       )}
     </div>
   );

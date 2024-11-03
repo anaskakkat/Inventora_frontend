@@ -12,7 +12,7 @@ export const validatePassword = (password: string): boolean => {
   return passwordRegex.test(password);
 };
 
-export const validateMobileNumber= (mobile: string): boolean => {
+export const validateMobileNumber = (mobile: string): boolean => {
   const mobileRegex = /^[0-9]{10}$/;
   return mobileRegex.test(mobile);
 };
@@ -22,4 +22,8 @@ export const validateConfirmPassword = (
   confirmPassword: string
 ): boolean => {
   return password === confirmPassword;
+};
+
+export const formatDate = (date: Date): string => {
+  return new Intl.DateTimeFormat("en-GB").format(date);
 };
