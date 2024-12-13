@@ -69,9 +69,9 @@ const AuthForm: React.FC = () => {
       toast.success(response.data.message);
       const user = response.data.user;
       const userInfo = {
-        id: user._id,
-        name: user.name,
-        email: user.email,
+        id: user?._id,
+        name: user?.name,
+        email: user?.email,
       };
       if (isLogin) {
         dispatch(setUserInfo(userInfo));

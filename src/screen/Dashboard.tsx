@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
                 Total Items
               </h3>
               <p className="text-3xl font-bold text-gray-800 mt-2">
-                {dashboardData.totalCustomers || 0}
+                {dashboardData.totalItems || 0}
               </p>
             </div>
             <div className="bg-blue-100 p-3 rounded-lg">
@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
                 Customers
               </h3>
               <p className="text-3xl font-bold text-gray-800 mt-2">
-                {dashboardData.totalItems || 0}
+                {dashboardData.totalCustomers || 0}
               </p>
             </div>
             <div className="bg-green-100 p-3 rounded-lg">
